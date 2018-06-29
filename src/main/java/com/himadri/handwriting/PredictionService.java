@@ -46,7 +46,6 @@ public class PredictionService {
         double[] input = readPixels(body);
         final Prediction prediction = neuralNetwork.classify(input);
         return prediction;
-//        return new Prediction(2, IntStream.range(0, 10).mapToDouble(a ->RandomUtils.nextDouble(0, 1)).toArray());
     }
 
     double[] readPixels(@RequestBody String body) throws IOException {
