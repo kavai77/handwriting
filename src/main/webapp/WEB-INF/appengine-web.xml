@@ -2,6 +2,6 @@
 <appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
     <application>handwriting-19</application>
     <version>3</version>
-    <threadsafe>true</threadsafe>
+    <threadsafe>false</threadsafe>
     <runtime>java8</runtime>
 </appengine-web-app>
