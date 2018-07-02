@@ -8,7 +8,7 @@ The neural network has 3 layers: 1 input, 1 output and 1 hidden layer. The hidde
 
 ![architecture](https://github.com/kavai77/handwriting/blob/master/src/main/webapp/Neural_network.png)
 
-##Training Algorithm
+## Training Algorithm
 The training was performed by me using Octave programming language and the backpropagation algorithm.
 
 The cost function is the generalization of logistic regression. The cost function includes regularization in order to keep the weights small and thus generalize the model more.
@@ -18,7 +18,12 @@ With backpropagation we are able to calculate the partial derivative of the cost
 Both the backpropagation and the cost function is my implementation in Octave. The optimalization algorithm (fmincg) is based upon Andrew Ng's Coursera class: Machine Learning.
 
 ## Prediction Algorithm
-The prediction algorithm is a Java service hosted in Google Cloud Platform. After having the weights for each unit, the prediction is an implementation of forward propagation which is basically only matrix multiplication and the sigmoid function applied. I did not use any ML library for this, the Apache Commons Math was enough.
+The prediction algorithm is a Java service hosted in Google Cloud Platform. 
+
+After having the weights for each unit, the prediction is an implementation of forward propagation 
+which is basically only matrix multiplication and the sigmoid function applied. 
+
+I did not use any ML library for this, the Apache Commons Math was enough.
 
 ## Training set
 The neural network was trained using the [MNIST database](http://yann.lecun.com/exdb/mnist/) 
