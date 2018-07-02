@@ -3,10 +3,7 @@ package com.himadri.handwriting;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -46,6 +43,10 @@ public class PredictionService {
         double[] input = readPixels(body);
         final Prediction prediction = neuralNetwork.classify(input);
         return prediction;
+    }
+
+    @GetMapping(value = "/warmup")
+    public void warmup() {
     }
 
     double[] readPixels(@RequestBody String body) throws IOException {

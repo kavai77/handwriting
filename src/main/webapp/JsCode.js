@@ -15,6 +15,8 @@ function InitThis() {
 	canvas.addEventListener("touchmove", moveEvent);
 
     $('#weightTable').hide();
+
+    warmup();
 }
 
 function downEvent(e) {
@@ -78,5 +80,12 @@ function send() {
         $('#w' + i).text(data.weights[i]);
       }
 //      $('#weightTable').show();
+    });
+}
+
+function warmup() {
+    $.ajax({
+      url: "/service/warmup",
+      method: "GET"
     });
 }
