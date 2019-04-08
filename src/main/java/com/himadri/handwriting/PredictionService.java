@@ -19,6 +19,7 @@ import java.util.stream.IntStream;
 import static java.util.stream.IntStream.range;
 
 @RestController
+@RequestMapping("/service")
 public class PredictionService {
 
     private static final String PNG_DATA_HEADER = "data:image/png;base64,";
