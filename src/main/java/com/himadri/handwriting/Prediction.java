@@ -3,24 +3,25 @@ package com.himadri.handwriting;
 import java.util.Arrays;
 
 public class Prediction {
+    private final String method;
     private final int prediction;
-    private final double[] weights;
+    private final Double confidence;
 
-    public Prediction(int prediction, double[] weights) {
+    public Prediction(String method, int prediction, Double confidence) {
+        this.method = method;
         this.prediction = prediction;
-        this.weights = weights;
+        this.confidence = confidence;
+    }
+
+    public String getMethod() {
+        return method;
     }
 
     public int getPrediction() {
         return prediction;
     }
 
-    public double[] getWeights() {
-        return weights;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("%d %s", prediction, Arrays.toString(weights));
+    public Double getConfidence() {
+        return confidence;
     }
 }

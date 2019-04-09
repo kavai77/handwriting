@@ -35,7 +35,7 @@ public class NeuralNetwork {
                 maxIndex = i;
             }
         }
-        return new Prediction(maxIndex, weights);
+        return new Prediction("Fully connected network", maxIndex, max);
     }
 
     private double[] prefixWithOne(double[] input) {

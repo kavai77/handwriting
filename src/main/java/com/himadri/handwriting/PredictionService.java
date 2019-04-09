@@ -26,31 +26,33 @@ public class PredictionService {
     private final int IMG_DIM = 28;
     private static final int IMG_MARGIN = 4;
 
-
-    private NeuralNetwork neuralNetwork;
+    private final LeNet5Network leNet5Network;
+    private final NeuralNetwork neuralNetwork;
 
     @Autowired
-    public PredictionService(NeuralNetwork neuralNetwork) {
+    public PredictionService(LeNet5Network leNet5Network, NeuralNetwork neuralNetwork) {
+        this.leNet5Network = leNet5Network;
         this.neuralNetwork = neuralNetwork;
     }
 
     @PostMapping(value = "/prediction", consumes = MediaType.TEXT_PLAIN_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public Prediction prediction(@RequestBody String body) throws IOException {
+    public Prediction[] prediction(@RequestBody String body) throws IOException {
         if (!StringUtils.startsWith(body, PNG_DATA_HEADER)) {
             throw new IllegalArgumentException(body);
         }
-        double[] input = readPixels(body);
-        final Prediction prediction = neuralNetwork.classify(input);
-        return prediction;
+        Pixels input = readPixels(body);
+        final Prediction neuralPrediction = neuralNetwork.classify(input.getTransformedPixels());
+        final Prediction convolutionalPrediction = leNet5Network.classify(input.getRawPixels());
+        return new Prediction[] {neuralPrediction, convolutionalPrediction};
     }
 
     @GetMapping(value = "/warmup")
     public void warmup() {
     }
 
-    double[] readPixels(@RequestBody String body) throws IOException {
+    Pixels readPixels(@RequestBody String body) throws IOException {
         final byte[] imageBytes = Base64.getDecoder().decode(StringUtils.removeStart(body, PNG_DATA_HEADER));
         final BufferedImage image = ImageIO.read(new ByteArrayInputStream(imageBytes));
         Rectangle boundary = findImageBoundary(image);
@@ -70,8 +72,10 @@ public class PredictionService {
             }
         }
         double[] input = new double[pixels.length];
+        double[] rawInput = new double[pixels.length];
         range(0, pixels.length).forEach(i -> input[i] = pixels[i] == 0 ? 0 : 1);
-        return input;
+        range(0, rawInput.length).forEach(i -> rawInput[i] = rawPixels[i] == 0 ? 0 : 1);
+        return new Pixels(input, rawInput);
     }
 
     private Rectangle findImageBoundary(BufferedImage image) {
@@ -98,6 +102,24 @@ public class PredictionService {
 
     static IntStream revRange(int from, int to) {
         return range(from, to).map(i -> to - i + from - 1);
+    }
+
+    public static class Pixels {
+        private final double[] transformedPixels;
+        private final double[] rawPixels;
+
+        public Pixels(double[] transformedPixels, double[] rawPixels) {
+            this.transformedPixels = transformedPixels;
+            this.rawPixels = rawPixels;
+        }
+
+        public double[] getTransformedPixels() {
+            return transformedPixels;
+        }
+
+        public double[] getRawPixels() {
+            return rawPixels;
+        }
     }
 
 }

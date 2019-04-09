@@ -14,8 +14,6 @@ function InitThis() {
 	canvas.addEventListener("touchend", upEvent);
 	canvas.addEventListener("touchmove", moveEvent);
 
-    $('#weightTable').hide();
-
     warmup();
 }
 
@@ -55,7 +53,6 @@ function clearArea() {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     $('#prediction').text("-");
     $('#confidence').text("-");
-    $('#weightTable').hide();
 }
 
 function send() {
@@ -68,18 +65,19 @@ function send() {
       data: img
     })
     .done(function( data ) {
-      var confidence = Math.round(data.weights[data.prediction] * 10000) / 100;
-      if (confidence >= 50) {
-          $('#prediction').text(data.prediction);
-          $('#confidence').text(confidence + "%");
-      } else {
-          $('#prediction').text("Not sure");
-          $('#confidence').text("Too low confidence rate from each output unit.");
+      for (var i = 0; i < data.length; i++) {
+          $('#method' + i).text(data[i].method);
+          if (data[i].confidence == null) {
+              $('#prediction' + i).text(data[i].prediction);
+              $('#confidence' + i).text("Confidence value not available");
+          } else if (data[i].confidence >= 0.5) {
+              $('#prediction' + i).text(data[i].prediction);
+              $('#confidence' + i).text((Math.round(data[i].confidence * 10000) / 100) + "%");
+          } else {
+              $('#prediction' + i).text("Not sure");
+              $('#confidence' + i).text("Too low confidence rate from each output unit.");
+          }
       }
-      for (i = 0; i <= 9; i++) {
-        $('#w' + i).text(data.weights[i]);
-      }
-//      $('#weightTable').show();
     });
 }
 

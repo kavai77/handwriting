@@ -47,14 +47,21 @@
         <table class="table">
             <thead>
                 <tr>
+                    <th>Method</th>
                     <th>Prediction</th>
                     <th>Confidence</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td id="prediction" align="center">-</td>
-                    <td id="confidence" align="center">-</td>
+                    <td id="method0" align="center">-</td>
+                    <td id="prediction0" align="center">-</td>
+                    <td id="confidence0" align="center">-</td>
+                </tr>
+                <tr>
+                    <td id="method1" align="center">-</td>
+                    <td id="prediction1" align="center">-</td>
+                    <td id="confidence1" align="center">-</td>
                 </tr>
             </tbody>
         </table>
@@ -84,58 +91,6 @@
         <br>
         <button class="btn btn-primary" onclick="javascript:send();return false;">Recognize</button>
         <button class="btn btn-secondary" onclick="javascript:clearArea();return false;">Clear Area</button>
-
-        <table id="weightTable" border="1">
-            <caption>Weights</caption>
-            <thead>
-            <tr>
-                <th>Output Unit</th>
-                <th>Weight</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>0</td>
-                <td id="w0"></td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td id="w1"></td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td id="w2"></td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td id="w3"></td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td id="w4"></td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td id="w5"></td>
-            </tr>
-            <tr>
-                <td>6</td>
-                <td id="w6"></td>
-            </tr>
-            <tr>
-                <td>7</td>
-                <td id="w7"></td>
-            </tr>
-            <tr>
-                <td>8</td>
-                <td id="w8"></td>
-            </tr>
-            <tr>
-                <td>9</td>
-                <td id="w9"></td>
-            </tr>
-            </tbody>
-        </table>
     </div>
     <h4 id="archtecture">Architecture</h4>
     <p>The neural network has 3 layers: 1 input, 1 output and 1 hidden layer.
