@@ -1,5 +1,8 @@
-package com.himadri.handwriting;
+package com.himadri.handwriting.predictionengine;
 
+import com.google.common.annotations.VisibleForTesting;
+import com.himadri.handwriting.model.Pixels;
+import com.himadri.handwriting.model.Prediction;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.math3.linear.DefaultRealMatrixChangingVisitor;
 import org.apache.commons.math3.linear.MatrixUtils;
@@ -15,12 +18,12 @@ import java.util.Arrays;
 import java.util.List;
 
 @Component
-public class NeuralNetwork {
+public class NeuralNetwork implements PredictionEngine {
     private RealMatrix theta1 = MatrixUtils.createRealMatrix(readDoubleMatrix(NeuralNetwork.class.getResourceAsStream("/theta1_mnist_lambda1_iteration50.txt")));
     private RealMatrix theta2 = MatrixUtils.createRealMatrix(readDoubleMatrix(NeuralNetwork.class.getResourceAsStream("/theta2_mnist_lambda1_iteration50.txt")));
 
-    public Prediction classify(double[] input) {
-        RealMatrix inputMatrix = MatrixUtils.createColumnRealMatrix(prefixWithOne(input));
+    public Prediction classify(Pixels pixels) {
+        RealMatrix inputMatrix = MatrixUtils.createColumnRealMatrix(prefixWithOne(pixels.getTransformedPixels()));
         RealMatrix h2 = theta1.multiply(inputMatrix);
         h2.walkInRowOrder(new SigmoidVisitor());
         RealMatrix h2Prefixed = MatrixUtils.createColumnRealMatrix(prefixWithOne(h2.getColumn(0)));
@@ -45,7 +48,8 @@ public class NeuralNetwork {
         return prefixInput;
     }
 
-    double[][] readDoubleMatrix(InputStream is) {
+    @VisibleForTesting
+    public double[][] readDoubleMatrix(InputStream is) {
         List<double[]> doublesList = new ArrayList<>();
         try (BufferedReader br  = new BufferedReader(new InputStreamReader(is))) {
             String line;

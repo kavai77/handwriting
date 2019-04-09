@@ -1,5 +1,8 @@
 package com.himadri.handwriting;
 
+import com.himadri.handwriting.model.Pixels;
+import com.himadri.handwriting.model.Prediction;
+import com.himadri.handwriting.predictionengine.PredictionEngine;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -13,7 +16,9 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.List;
 import java.util.OptionalInt;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static java.util.stream.IntStream.range;
@@ -26,30 +31,23 @@ public class PredictionService {
     private final int IMG_DIM = 28;
     private static final int IMG_MARGIN = 4;
 
-    private final LeNet5Network leNet5Network;
-    private final NeuralNetwork neuralNetwork;
+    private final List<PredictionEngine> predictionEngineList;
 
     @Autowired
-    public PredictionService(LeNet5Network leNet5Network, NeuralNetwork neuralNetwork) {
-        this.leNet5Network = leNet5Network;
-        this.neuralNetwork = neuralNetwork;
+    public PredictionService(List<PredictionEngine> predictionEngineList) {
+        this.predictionEngineList = predictionEngineList;
     }
 
     @PostMapping(value = "/prediction", consumes = MediaType.TEXT_PLAIN_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public Prediction[] prediction(@RequestBody String body) throws IOException {
+    public List<Prediction> prediction(@RequestBody String body) throws IOException {
         if (!StringUtils.startsWith(body, PNG_DATA_HEADER)) {
             throw new IllegalArgumentException(body);
         }
         Pixels input = readPixels(body);
-        final Prediction neuralPrediction = neuralNetwork.classify(input.getTransformedPixels());
-        final Prediction convolutionalPrediction = leNet5Network.classify(input.getRawPixels());
-        return new Prediction[] {neuralPrediction, convolutionalPrediction};
-    }
 
-    @GetMapping(value = "/warmup")
-    public void warmup() {
+        return predictionEngineList.stream().map(a -> a.classify(input)).collect(Collectors.toList());
     }
 
     Pixels readPixels(@RequestBody String body) throws IOException {
@@ -102,24 +100,6 @@ public class PredictionService {
 
     static IntStream revRange(int from, int to) {
         return range(from, to).map(i -> to - i + from - 1);
-    }
-
-    public static class Pixels {
-        private final double[] transformedPixels;
-        private final double[] rawPixels;
-
-        public Pixels(double[] transformedPixels, double[] rawPixels) {
-            this.transformedPixels = transformedPixels;
-            this.rawPixels = rawPixels;
-        }
-
-        public double[] getTransformedPixels() {
-            return transformedPixels;
-        }
-
-        public double[] getRawPixels() {
-            return rawPixels;
-        }
     }
 
 }
