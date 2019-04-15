@@ -28,7 +28,7 @@
                 <a class="nav-link" href="#trainingset">Training set</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#github">GitHub</a>
+                <a class="nav-link" href="#github">Source code</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#author">Author</a>
@@ -36,7 +36,6 @@
         </ul>
     </nav>
     <div align="center">
-        <div class="alert alert-primary" role="alert">BETA: There are known issues with some digits, work is still in progress...</div>
         <h5>Please write any digit from 0 to 9 into the box</h5>
         <canvas id="myCanvas" width="200" height="200" style="border:2px solid black"></canvas>
         <br>
@@ -93,11 +92,17 @@
         <button class="btn btn-secondary" onclick="javascript:clearArea();return false;">Clear Area</button>
     </div>
     <h4 id="archtecture">Architecture</h4>
+    <h5>1. Convolutional network</h5>
+    <p><i>to be described</i></p>
+    <h5>2. Fully connected network</h5>
     <p>The neural network has 3 layers: 1 input, 1 output and 1 hidden layer.
     The hidden layer contains 300 units, the input layer has units for each pixel and we have ten output units, one for each digit.
     <img src="Neural_network.png" class="img-fluid" alt="Neural network" align="center"><br>
     </p>
-    <h4 id="training_algorithm">Training Algorithm</h4>
+    <h4 id="training_algorithm">Training Algorithms</h4>
+    <h5>1. Convolutional network</h5>
+    <p><i>to be described</i></p>
+    <h5>2. Fully connected network</h5>
     <p>The training was performed by me using Octave programming language and the backpropagation algorithm.
     <p>The cost function is the generalization of logistic regression.
     The cost function includes regularization in order to keep the weights small and thus generalize the model more.
@@ -106,7 +111,10 @@
     function using gradient descent.
     <p>Both the backpropagation and the cost function is my implementation in Octave.
     The optimalization algorithm (fmincg) is based upon Andrew Ng's Coursera class: Machine Learning.
-    <h4 id="prediction_algorithm">Prediction Algorithm</h4>
+    <h4 id="prediction_algorithm">Prediction Algorithms</h4>
+    <h5>1. Convolutional network</h5>
+    <p><i>to be described</i></p>
+    <h5>2. Fully connected network</h5>
     The prediction algorithm is a Java service hosted in Google Cloud Platform. After having the weights for
         each unit, the prediction is an implementation of forward propagation which is basically
         only matrix multiplication and the sigmoid function applied. I did not use any ML library for this,

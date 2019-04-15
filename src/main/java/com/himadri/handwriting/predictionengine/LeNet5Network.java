@@ -2,6 +2,7 @@ package com.himadri.handwriting.predictionengine;
 
 import com.himadri.handwriting.model.Pixels;
 import com.himadri.handwriting.model.Prediction;
+import org.deeplearning4j.nn.api.Layer;
 import org.deeplearning4j.nn.modelimport.keras.KerasModelImport;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.nd4j.linalg.api.ndarray.INDArray;
@@ -28,7 +29,9 @@ public class LeNet5Network implements PredictionEngine {
     @Override
     public Prediction classify(Pixels pixels) {
         INDArray indArray = Nd4j.create(pixels.getRawPixels(), new int[]{1, 1, 28, 28});
-        int[] predict = model.predict(indArray);
-        return new Prediction("Convolutional Network", predict[0], null);
+        final INDArray output = model.output(indArray, Layer.TrainingMode.TEST).getRow(0);
+        final int prediction = Nd4j.getBlasWrapper().iamax(output);
+        double confidence = output.getDouble(prediction);
+        return new Prediction("Convolutional Network", prediction, confidence);
     }
 }

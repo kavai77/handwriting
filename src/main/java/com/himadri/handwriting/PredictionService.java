@@ -14,10 +14,8 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Base64;
+import java.util.*;
 import java.util.List;
-import java.util.OptionalInt;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -47,7 +45,11 @@ public class PredictionService {
         }
         Pixels input = readPixels(body);
 
-        return predictionEngineList.stream().map(a -> a.classify(input)).collect(Collectors.toList());
+        return predictionEngineList
+                .stream()
+                .map(a -> a.classify(input))
+                .sorted(Comparator.comparing(Prediction::getMethod))
+                .collect(Collectors.toList());
     }
 
     Pixels readPixels(@RequestBody String body) throws IOException {
