@@ -9,13 +9,14 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -30,26 +31,32 @@ public class PredictionService {
     private static final int IMG_MARGIN = 4;
 
     private final List<PredictionEngine> predictionEngineList;
+    private final StorageService storageService;
 
     @Autowired
-    public PredictionService(List<PredictionEngine> predictionEngineList) {
+    public PredictionService(List<PredictionEngine> predictionEngineList, StorageService storageService) {
         this.predictionEngineList = predictionEngineList;
+        this.storageService = storageService;
     }
 
     @PostMapping(value = "/prediction", consumes = MediaType.TEXT_PLAIN_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public List<Prediction> prediction(@RequestBody String body) throws IOException {
+    public List<Prediction> prediction(HttpServletRequest httpServletRequest, @RequestBody String body) throws IOException {
         if (!StringUtils.startsWith(body, PNG_DATA_HEADER)) {
             throw new IllegalArgumentException(body);
         }
         Pixels input = readPixels(body);
 
-        return predictionEngineList
-                .stream()
-                .map(a -> a.classify(input))
-                .sorted(Comparator.comparing(Prediction::getMethod))
-                .collect(Collectors.toList());
+        List<Prediction> predictions = predictionEngineList
+            .stream()
+            .map(a -> a.classify(input))
+            .sorted(Comparator.comparing(Prediction::getMethod))
+            .collect(Collectors.toList());
+
+        storageService.storePrediction(getClientIp(httpServletRequest), input, predictions);
+
+        return predictions;
     }
 
     Pixels readPixels(@RequestBody String body) throws IOException {
@@ -75,7 +82,7 @@ public class PredictionService {
         double[] rawInput = new double[pixels.length];
         range(0, pixels.length).forEach(i -> input[i] = pixels[i] == 0 ? 0 : 1);
         range(0, rawInput.length).forEach(i -> rawInput[i] = rawPixels[i] == 0 ? 0 : 1);
-        return new Pixels(input, rawInput);
+        return new Pixels(imageBytes, input, rawInput);
     }
 
     private Rectangle findImageBoundary(BufferedImage image) {
@@ -104,4 +111,13 @@ public class PredictionService {
         return range(from, to).map(i -> to - i + from - 1);
     }
 
+    private String getClientIp(HttpServletRequest request) {
+
+        String remoteAddr = request.getHeader("X-FORWARDED-FOR");
+        if (StringUtils.isEmpty(remoteAddr)) {
+            remoteAddr = request.getRemoteAddr();
+        }
+
+        return remoteAddr;
+    }
 }

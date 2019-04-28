@@ -38,7 +38,7 @@ public class NeuralNetwork implements PredictionEngine {
                 maxIndex = i;
             }
         }
-        return new Prediction("Fully connected network", maxIndex, max);
+        return new Prediction("Fully connected network", maxIndex, max, false);
     }
 
     private double[] prefixWithOne(double[] input) {

@@ -32,6 +32,6 @@ public class LeNet5Network implements PredictionEngine {
         final INDArray output = model.output(indArray, Layer.TrainingMode.TEST).getRow(0);
         final int prediction = Nd4j.getBlasWrapper().iamax(output);
         double confidence = output.getDouble(prediction);
-        return new Prediction("Convolutional Network", prediction, confidence);
+        return new Prediction("Convolutional Network", prediction, confidence, true);
     }
 }

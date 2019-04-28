@@ -8,5 +8,6 @@ import lombok.Getter;
 public class Prediction {
     private final String method;
     private final int prediction;
-    private final Double confidence;
+    private final double confidence;
+    private final boolean preferred;
 }
