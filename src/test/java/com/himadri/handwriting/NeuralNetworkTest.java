@@ -3,12 +3,12 @@ package com.himadri.handwriting;
 import com.himadri.handwriting.model.Pixels;
 import com.himadri.handwriting.model.Prediction;
 import com.himadri.handwriting.predictionengine.NeuralNetwork;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.assertEquals;
 
-@Ignore
+@Disabled
 public class NeuralNetworkTest {
     private NeuralNetwork sut = new NeuralNetwork();
 

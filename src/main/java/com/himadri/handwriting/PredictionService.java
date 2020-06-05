@@ -22,8 +22,8 @@ public class PredictionService {
         this.predictionEngineList = predictionEngineList;
     }
 
-    @PostMapping(value = "/prediction", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
-        produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(value = "/prediction", consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<Prediction> prediction(@RequestBody Pixels input) {
         List<Prediction> predictions = predictionEngineList

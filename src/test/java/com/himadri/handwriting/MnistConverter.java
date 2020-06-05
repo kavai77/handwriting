@@ -1,8 +1,8 @@
 package com.himadri.handwriting;
 
 import org.apache.commons.io.IOUtils;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.io.DataInputStream;
 import java.io.File;
@@ -10,7 +10,7 @@ import java.io.FileInputStream;
 import java.io.PrintWriter;
 import java.util.stream.IntStream;
 
-@Ignore
+@Disabled
 public class MnistConverter {
     @Test
     public void convertLabelFile() throws Exception {

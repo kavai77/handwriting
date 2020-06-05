@@ -3,8 +3,8 @@ package com.himadri.handwriting;
 import com.google.common.collect.ImmutableList;
 import com.himadri.handwriting.predictionengine.LeNet5Network;
 import com.himadri.handwriting.predictionengine.NeuralNetwork;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -12,7 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
-@Ignore
+@Disabled
 public class PredictionServiceTest {
     private NeuralNetwork neuralNetwork = new NeuralNetwork();
     private LeNet5Network leNet5Network = new LeNet5Network();
