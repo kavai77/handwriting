@@ -1,1 +1,1 @@
-# Handwritten digit recognizer - compute engine
+# Handwritten digit recognizer

@@ -2,14 +2,11 @@ package com.himadri.handwriting.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Setter
 public class Pixels {
-    private double[] transformedPixels;
-    private double[] rawPixels;
+    private final byte[] pngEncoded;
+    private final double[] transformedPixels;
+    private final double[] rawPixels;
 }

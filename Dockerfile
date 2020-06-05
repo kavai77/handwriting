@@ -1,4 +1,4 @@
-FROM openjdk:8-jre
+FROM openjdk:11-jre
 ARG JAR_FILE
 ADD ${JAR_FILE} /usr/share/app.jar
 
