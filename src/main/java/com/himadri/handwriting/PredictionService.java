@@ -38,10 +38,12 @@ public class PredictionService {
     private static final int IMG_MARGIN = 4;
 
     private final List<PredictionEngine> predictionEngineList;
+    private final DynamoDbRepository dynamoDbRepository;
 
     @Autowired
-    public PredictionService(List<PredictionEngine> predictionEngineList) {
+    public PredictionService(List<PredictionEngine> predictionEngineList, DynamoDbRepository dynamoDbRepository) {
         this.predictionEngineList = predictionEngineList;
+        this.dynamoDbRepository = dynamoDbRepository;
     }
 
     @PostMapping(value = "/prediction", consumes = MediaType.TEXT_PLAIN_VALUE,
@@ -59,7 +61,7 @@ public class PredictionService {
             .sorted(Comparator.comparing(Prediction::getMethod))
             .collect(Collectors.toList());
 
-        //storageService.storePrediction(getClientIp(httpServletRequest), input, predictions);
+        dynamoDbRepository.storePrediction(getClientIp(httpServletRequest), input, predictions);
 
         return predictions;
     }

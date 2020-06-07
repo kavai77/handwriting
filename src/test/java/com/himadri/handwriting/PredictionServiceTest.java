@@ -12,11 +12,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
+import static org.mockito.Mockito.mock;
+
 @Disabled
 public class PredictionServiceTest {
     private NeuralNetwork neuralNetwork = new NeuralNetwork();
     private LeNet5Network leNet5Network = new LeNet5Network();
-    private PredictionService predictionService = new PredictionService(ImmutableList.of(leNet5Network, neuralNetwork));
+    private PredictionService predictionService = new PredictionService(ImmutableList.of(leNet5Network, neuralNetwork), mock(DynamoDbRepository.class));
 
     @Test
     public void displayTrainingSet() throws Exception {
