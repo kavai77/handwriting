@@ -18,6 +18,7 @@ import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 @Component
@@ -72,7 +73,7 @@ public class DynamoDbRepository {
                     COLUMN_IP_COUNTRY, AttributeValue.builder().s(country).build(),
                     COLUMN_IMAGE, AttributeValue.builder().b(SdkBytes.fromByteArray(input.getPngEncoded())).build(),
                     COLUMN_PREFERRED_PREDICTION, AttributeValue.builder().n(Integer.toString(preferredPrediction.getPrediction())).build(),
-                    COLUMN_PREFERRED_CONFIDENCE, AttributeValue.builder().n(String.format("%.2f", preferredPrediction.getConfidence())).build(),
+                    COLUMN_PREFERRED_CONFIDENCE, AttributeValue.builder().n(String.format(Locale.ROOT, "%.2f", preferredPrediction.getConfidence())).build(),
                     COLUMN_PREDICTIONS, AttributeValue.builder().s(objectMapper.writeValueAsString(predictions)).build()
                 ))
                 .build());
