@@ -149,7 +149,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <repository>docker.himadri.eu:5000/${docker.image.prefix}/${project.artifactId}</repository>
+                    <repository>registry.himadri.eu/${docker.image.prefix}/${project.artifactId}</repository>
                     <tag>${project.version}</tag>
                     <buildArgs>
                         <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
