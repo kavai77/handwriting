@@ -15,6 +15,7 @@ import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
 import software.amazon.awssdk.services.dynamodb.model.PutItemRequest;
 
 import javax.annotation.PostConstruct;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.List;
@@ -50,7 +51,7 @@ public class DynamoDbRepository {
             .credentialsProvider(() -> AwsBasicCredentials.create(accessKeyId, secretAccessKey))
             .region(Region.EU_CENTRAL_1)
             .build();
-        dbReader = new DatabaseReader.Builder(getClass().getResourceAsStream("/GeoLite2-Country.mmdb")).build();
+        dbReader = new DatabaseReader.Builder(new FileInputStream(App.SECRET_STORE + "/GeoLite2-Country.mmdb")).build();
     }
 
     public void storePrediction(String remoteAddress, Pixels input, List<Prediction> predictions) {

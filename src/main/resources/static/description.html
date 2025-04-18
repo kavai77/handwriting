@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Handwritten Digit Recognizer</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" type="image/jpg" href="favicon.png">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+<div class="container">
+    <nav id="mynavbar" class="navbar sticky-top navbar-light bg-light">
+        <a class="navbar-brand" href="#">Handwritten digit recognizer</a>
+        <ul class="nav nav-pills">
+            <li class="nav-item">
+                <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#architecture">Architecture</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#training_algorithm">Algorithms</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#trainingset">Training set</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#github">Source code</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#author">Author</a>
+            </li>
+        </ul>
+    </nav>
+    <h4 id="architecture">Architecture</h4>
+    <h5>1. Convolutional Network</h5>
+    <p>
+        This is a classic LeNet-5 Network which uses a mixture of Convolutional layers, Pooling and Fully Connected layers and finally a softmax function.
+        <img src="lenet-5.svg" class="img-fluid" alt="LeNet-5 network" align="center"><br>
+    </p>
+    <h5>2. Fully Connected (Dense) Network</h5>
+    <p>The neural network has 3 layers: 1 input, 1 output and 1 hidden layer.
+    The hidden layer contains 300 units, the input layer has units for each pixel and we have ten output units, one for each digit.
+    <img src="Neural_network.png" class="img-fluid" alt="Neural network" align="center"><br>
+    </p>
+    <h4 id="training_algorithm">Training Algorithms</h4>
+    <h5>1. Convolutional Network</h5>
+    <p>
+        The training was performed by me using Python with high level Keras libraries and the Mnist data set.
+        Check out the <a href="https://github.com/kavai77/handwriting/blob/master/src/main/resources/lenet_in_keras.ipynb">training code</a>.
+    </p>
+    <h5>2. Fully Connected (Dense) Network</h5>
+    <p>The training was performed by me using Octave programming language and the backpropagation algorithm.
+    <p>The cost function is the generalization of logistic regression.
+    The cost function includes regularization in order to keep the weights small and thus generalize the model more.
+    <p>With backpropagation we are able to calculate the partial derivative of the cost function on every weight.
+    When the optimalization algorithm is fed with both the cost function and its derivatives, it can minimize the cost
+    function using gradient descent.
+    <p>Both the backpropagation and the cost function is my implementation in Octave.
+    The optimalization algorithm (fmincg) is based upon Andrew Ng's Coursera class: Machine Learning.
+    <h4 id="prediction_algorithm">Prediction Algorithms</h4>
+    <h5>1. Convolutional Network</h5>
+        <p>The prediction algorithm is a Java service with Spring Boot.
+        The model weight is saved in a Keras h5 file which is loaded upon startup.
+            I use high level DeepLearning4J libraries for prediction.</p>
+    <h5>2. Fully Connected (Dense) Network</h5>
+        <p>After having the weights for
+        each unit, the prediction is an implementation of forward propagation which is basically
+        only matrix multiplication and the sigmoid function applied. Here (unlike at Convolutional Networks)
+        I only used Apache Commons Math with good old-school low level matrix multiplication.</p>
+    <h4 id="trainingset">Training set</h4>
+    <p>The neural network was trained using the <a href="http://yann.lecun.com/exdb/mnist/">MNIST database</a> using 60000 examples.
+    The training set is <a href="mnist-all.png">visualised here</a>
+    </p>
+    <h4 id="github">GitHub</h4>
+    <p>Source code available at
+        <a href="https://github.com/kavai77/handwriting">https://github.com/kavai77/handwriting</a>
+    </p>
+    <h4 id="author">Author</h4>
+    <p>Csaba Kavai
+    <a href="https://www.linkedin.com/in/csaba-kavai/">Linked profile</a>
+    </p>
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -13,8 +13,6 @@ function InitThis() {
 	canvas.addEventListener("touchstart", downEvent);
 	canvas.addEventListener("touchend", upEvent);
 	canvas.addEventListener("touchmove", moveEvent);
-
-    warmup();
 }
 
 function downEvent(e) {
@@ -36,8 +34,8 @@ function moveEvent(e) {
 function Draw(x, y, isDown) {
     if (isDown) {
         ctx.beginPath();
-        ctx.strokeStyle = $('#selColor').val();
-        ctx.lineWidth = $('#selWidth').val();
+        ctx.strokeStyle = 'blue';
+        ctx.lineWidth = 18;
         ctx.lineJoin = "round";
         ctx.moveTo(lastX, lastY);
         ctx.lineTo(x, y);
@@ -88,9 +86,3 @@ function send() {
     });
 }
 
-function warmup() {
-    $.ajax({
-      url: "/service/warmup",
-      method: "GET"
-    });
-}
